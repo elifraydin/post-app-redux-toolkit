@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 import { postObject } from "../../types/interfaces"
 
 const initialState: postObject[] = [
@@ -15,9 +15,21 @@ export const postsSlice = createSlice({
     initialState,
 
     reducers: {
-        postAdd: (state, action) => {
-            state.push(action.payload)
-        },
+        postAdd: {
+            reducer(state,action: PayloadAction<postObject>){
+                state.push(action.payload)
+            },
+            prepare(title,content){
+                return{
+                    payload:{
+                        id:nanoid(),
+                        title,
+                        content
+                    }
+                }
+            }
+        }
+        
     }
 
 })
