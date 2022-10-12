@@ -1,10 +1,11 @@
+import PostList from "./components/PostList"
 
 
 function App() {
 
   return (
-    <div>
-    
+    <div className=" bg-purple-300  h-screen">
+    <PostList/>
     </div>
   )
 }
