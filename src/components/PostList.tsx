@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store';
+import PostAuthor from './PostAuthor';
 
 
 const PostList = () => {
@@ -10,6 +11,9 @@ const PostList = () => {
         <article key={post.id}>
             <h3>{post.title}</h3>
             <p>{post.content.substring(0, 5)}</p>
+            <p className='postCredit'>
+                <PostAuthor userId={post.userId}/>
+            </p>
         </article>
     ))
 

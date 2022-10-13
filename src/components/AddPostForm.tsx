@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { postAdd } from '../features/posts/postsSlice'
-import { nanoid } from '@reduxjs/toolkit'; //ramdom id
+
 
 const AddPostForm = () => {
 
     const posts = useAppSelector(state => state.posts)
+    const users = useAppSelector(state => state.users)
+
     const dispatch = useAppDispatch();
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
+    const [userId, setUserId] = useState('1')
 
     // const onTitleChanged=()=>{
     //     dispatch(add(title))
@@ -20,12 +23,20 @@ const AddPostForm = () => {
 
     const onSavePostClicked = () => {
         if (title && content) {
-            dispatch(postAdd(title,content))
+            dispatch(postAdd(title, content, userId))
         }
         setTitle("")
         setContent("")
     }
 
+
+    const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+
+
+    const changeAuthorName = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value
+        setUserId(value);
+    }
 
 
     return (
@@ -41,6 +52,15 @@ const AddPostForm = () => {
                     className=" bg-slate-200"
                 />
 
+                <label htmlFor='postAuthor'>Author:</label>
+                <select id="postAuthor" value={userId} onChange={changeAuthorName}>
+                {users.map((user) => (
+                        <option className="" key={user.id} value={user.id}>
+                            {user.name}
+                        </option>
+                    ))}
+                </select>
+
                 <label htmlFor="postContent">Content:</label>
                 <textarea
                     id="postContent"
@@ -51,6 +71,8 @@ const AddPostForm = () => {
                 <button
                     type="button"
                     onClick={onSavePostClicked}
+                    disabled={!canSave}
+                    className="bg-slate-500"
                 >Save Post</button>
             </form>
 
