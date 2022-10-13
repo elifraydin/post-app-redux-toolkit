@@ -3,6 +3,7 @@ export interface postObject{
     title:string;
     content:string;
     userId:string;
+    date:string;
 }
 
 export interface userObject{
